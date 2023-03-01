@@ -1,6 +1,6 @@
 const { Schema, Types } = require('mongoose');
 
-const itemSchema = new Schema(
+const statusSchema = new Schema(
   {
         isOpen: Boolean,
         lastOpen: {
@@ -16,4 +16,4 @@ const itemSchema = new Schema(
   }
 );
 
-module.exports = itemSchema;
+module.exports = statusSchema;
