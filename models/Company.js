@@ -35,6 +35,7 @@ const companySchema = new Schema(
     ratings: [Number],
     status: Status,
     menu: [Item],
+    followers: Number
   },
   {
     toJSON: {
