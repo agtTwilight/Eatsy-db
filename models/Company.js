@@ -1,5 +1,4 @@
 const { Schema, model } = require('mongoose');
-const { type } = require('os');
 const Item = require('./Item')
 const Status = require('./Status')
 
@@ -46,13 +45,17 @@ const companySchema = new Schema(
 );
 
 companySchema
-  .virtual('reactionCount')
+  .virtual('avgRating')
   .get(function () {
-    return this.reactions.length;
+    const sum = 0;
+    for (i=0;i<this.ratings.length;i++) {
+      sum += this.ratings[i];
+    }
+    return sum/this.ratings.length;
   })
-  .set(function (v) {
-    const reactionCount = v;
-    this.set({ reactionCount});
+  .set(function (avg) {
+    const avgRating = avg;
+    this.set({ avgRating});
   });
 
 // Initialize our Thought model
