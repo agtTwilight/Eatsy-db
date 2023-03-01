@@ -23,6 +23,12 @@ const userSchema = new Schema(
         type: Schema.Types.ObjectId,
         ref: 'company',
       },
+    ],
+    following: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'company',
+      },
     ]
   },
   {
