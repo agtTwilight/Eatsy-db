@@ -1,5 +1,4 @@
 const { Schema, model } = require('mongoose');
-const Item = require('./Item')
 const Status = require('./Status')
 
 // Schema to create company model
@@ -25,17 +24,15 @@ const companySchema = new Schema(
       type:String, 
       required:true
     },
-    depositMethod: String,
-    username: {
-      type: String, 
-      required:true
-    },
     termsOfServiceAgreement: Boolean,
     tags: [String],
     ratings: [Number],
     status: Status,
-    menu: [Item],
-    followers: Number
+    followers: Number,
+    menu: [{
+      type: Schema.Types.ObjectId,
+      ref: "item"
+    }],
   },
   {
     toJSON: {
