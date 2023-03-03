@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose');
-const paymentMethod = require('./paymentMethod')
+
+// TODO: include `orders` which will be an array of item id's
 
 // Schema to create User model
 const userSchema = new Schema(
@@ -16,8 +17,11 @@ const userSchema = new Schema(
       unique:true, 
       match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
   },
-    address: [String],
-    paymentMethods: [paymentMethod],
+    address: String,
+    cart: [{
+      itemId: String,
+      itemQuantity:Number
+    }],
     company: [
       {
         type: Schema.Types.ObjectId,
@@ -38,16 +42,6 @@ const userSchema = new Schema(
     id: false,
   }
 );
-
-userSchema
-  .virtual('friendCount')
-  .get(function () {
-    return this.friends.length;
-  })
-  .set(function (v) {
-    const friendCount = v;
-    this.set({ friendCount});
-  });
 
 // Initialize our User model
 const User = model('user', userSchema);
