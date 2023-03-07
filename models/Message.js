@@ -3,8 +3,8 @@ const { Schema, Types } = require('mongoose');
 const messageSchema = new Schema(
   {
     text: {
-      type:String,
-      required:true,
+      type: String,
+      required: true,
       maxLength: 250
     },
     from: [{

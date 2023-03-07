@@ -6,7 +6,9 @@ const {
   updateCompany,
   deleteCompany,
   sendMessage,
-  deleteMessage
+  deleteMessage,
+  createReview,
+  deleteReview
 } = require('../../controllers/companyController');
 
 // /api/companies
@@ -17,5 +19,8 @@ router.route('/:companyId').get(getSingleCompany).put(updateCompany).delete(dele
 
 // /api/companies/:companyId/message
 router.route("/:companyId/message").post(sendMessage).delete(deleteMessage)
+
+// /api/companies/:companyId/review
+router.route("/:companyId/review".post(createReview).delete(deleteReview))
 
 module.exports = router;
