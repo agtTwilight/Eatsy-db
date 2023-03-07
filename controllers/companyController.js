@@ -42,34 +42,55 @@ module.exports = {
   // update company
   updateCompany(req, res) {
     Company.findOneAndUpdate({ _id: req.params.companyId }, req.body, { new: true })
-      .then((company) => res.json(company))
+      .then((company) => res.json({ msg: `Your updates to ${company.name} have been applied.` }))
   },
 
   // delete company
   // TODO does this delete the company id from user company array?
   deleteCompany(req, res) {
     Company.findOneAndDelete({ _id: req.params.companyId })
-    .then((company) => res.json({msg: `successfully deleted company: ${company.name}`}))
-    .catch((err) => res.status(500).json(err));
+      .then((company) => res.json({ msg: `Successfully deleted company: ${company.name}.` }))
+      .catch((err) => res.status(500).json(err));
   },
 
   // send message to a company
-  sendMessage(req,res) {
+  sendMessage(req, res) {
     Company.findOneAndUpdate(
-      {_id: req.params.companyId},
-      {$addToSet: {messages:req.body}},
-      {new:true}
-      )
-      .then((company) => res.json(company))
+      { _id: req.params.companyId },
+      { $addToSet: { messages: req.body } },
+      { new: true }
+    )
+      .then((company) => res.json({ msg: `Your message has been successfully sent to ${company.name}.` }))
       .catch((err) => res.status(500).json(err));
   },
 
   // delete message
-  // TODO make sure this pull removes a thread of messages between users
-  deleteMessage(req,res) {
+  deleteMessage(req, res) {
     Company.findOneAndUpdate(
-      {_id:req.params.companyId},
-      {$pull: {messages: {from: req.body.userId} } }
-    )
-  }
+      { _id: req.params.companyId },
+      { $pull: { messages: { from: req.body.userId } } }
+    ).then((company) => res.json({ msg: `Your message to ${company.name} has been deleted.` }))
+      .catch((err) => res.status(500).json(err))
+  },
+
+
+  //create review
+  createReview(req, res) {
+    Company.findOneAndUpdate(
+      { _id: req.params.companyId },
+      { $addToSet: { reviews: req.body } },
+      { new: true }
+    ).then((company) => res.json({ msg: `Your review to ${company.name} has been created.` }))
+      .catch((err) => res.status(500).json(err))
+  },
+
+  //delete review
+  deleteReview(req, res) {
+    Company.findOneAndDelete(
+      { _id: req.params.companyId },
+      { $pull: { reviews: { from: req.body.userId } } }
+    ).then((company) => res.json({ msg: `Your review has been deleted for ${company.name}` }))
+      .catch((err) => res.status(500).json(err))
+  },
+
 };
