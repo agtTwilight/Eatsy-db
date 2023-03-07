@@ -7,20 +7,9 @@ const itemSchema = new Schema(
       required:true,
       maxLength: 25,
     },
-    price: {
-      type: Number,
-      required:true
-    },
-    quantity: {
-      type: Number,
-      default: 0,
-    },
-    previousQuantity: {
-      type: Number
-    },
-    allergens:[String],
     description: {
       type: String,
+      required: true,
       maxLength:250,
     },
     img: {
