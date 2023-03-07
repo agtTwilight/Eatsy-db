@@ -16,6 +16,6 @@ router.route('/').get(getCompanies).post(createCompany);
 router.route('/:companyId').get(getSingleCompany).put(updateCompany).delete(deleteCompany);
 
 // /api/companies/:companyId/message
-router.route("/:companyId/message".post(sendMessage).delete(deleteMessage))
+router.route("/:companyId/message").post(sendMessage).delete(deleteMessage)
 
 module.exports = router;

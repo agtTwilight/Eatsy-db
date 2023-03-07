@@ -7,8 +7,8 @@ const {
   deleteUser,
   logUserIn,
   logUserOut,
-  followUser,
-  unfollowUser,
+  followCompany,
+  unfollowCompany,
   createCart,
   deleteCart
 } = require('../../controllers/userController');
