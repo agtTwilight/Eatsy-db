@@ -7,10 +7,8 @@ const messageSchema = new Schema(
       required: true,
       maxLength: 250
     },
-    from: [{
-      type: Schema.Types.ObjectId,
-      ref: 'user'
-    }]
+    // usernames since they are unique
+    from: [String]
   },
   {
     toJSON: {

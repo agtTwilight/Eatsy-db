@@ -9,16 +9,12 @@ const reviewSchema = new Schema(
         },
         rating: {
             type: Number,
-            required: true,
+            // required: true,
             min: 1,
             max: 5,
         },
-        from: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: "user",
-            },
-        ],
+        // usernames since they are unique
+        from: [String]
     },
     {
         toJSON: {
