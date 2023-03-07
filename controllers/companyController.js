@@ -3,6 +3,7 @@ const User = require('../models/User');
 
 module.exports = {
   // get all comapnies ... used on homepage to display all companies
+  // TODO there is a bug where adding reviews breaks the fetch requests. Fix that.
   getCompanies(req, res) {
     Company.find()
       .select('-__v')
@@ -53,10 +54,11 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
 
+  // TODO make the following functions send with JWT active username
   // send message to a company
   sendMessage(req, res) {
     Company.findOneAndUpdate(
-      { _id: req.params.companyId },
+      { _id: req.body.companyId },
       { $addToSet: { messages: req.body } },
       { new: true }
     )
@@ -67,28 +69,28 @@ module.exports = {
   // delete message
   deleteMessage(req, res) {
     Company.findOneAndUpdate(
-      { _id: req.params.companyId },
-      { $pull: { messages: { from: req.body.userId } } }
+      { _id: req.body.companyId },
+      { $pull: { messages: { from: req.body.username } } }
     ).then((company) => res.json({ msg: `Your message to ${company.name} has been deleted.` }))
       .catch((err) => res.status(500).json(err))
   },
 
-
   //create review
   createReview(req, res) {
     Company.findOneAndUpdate(
-      { _id: req.params.companyId },
+      { _id: req.body.companyId },
       { $addToSet: { reviews: req.body } },
       { new: true }
     ).then((company) => res.json({ msg: `Your review to ${company.name} has been created.` }))
       .catch((err) => res.status(500).json(err))
   },
 
+  // TODO delete reviews by review id?
   //delete review
   deleteReview(req, res) {
     Company.findOneAndDelete(
-      { _id: req.params.companyId },
-      { $pull: { reviews: { from: req.body.userId } } }
+      { _id: req.body.companyId },
+      { $pull: { reviews: { from: req.body.reviewId } } }
     ).then((company) => res.json({ msg: `Your review has been deleted for ${company.name}` }))
       .catch((err) => res.status(500).json(err))
   },

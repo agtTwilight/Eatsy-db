@@ -17,10 +17,10 @@ router.route('/').get(getCompanies).post(createCompany);
 // /api/companies/:companyId
 router.route('/:companyId').get(getSingleCompany).put(updateCompany).delete(deleteCompany);
 
-// /api/companies/:companyId/message
-router.route("/:companyId/message").post(sendMessage).delete(deleteMessage)
+// /api/companies/message
+router.route("/message").post(sendMessage).delete(deleteMessage)
 
-// /api/companies/:companyId/review
-router.route("/:companyId/review".post(createReview).delete(deleteReview))
+// /api/companies/review
+router.route("/review").post(createReview).delete(deleteReview)
 
 module.exports = router;

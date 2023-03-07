@@ -22,16 +22,11 @@ const userSchema = new Schema(
       required: true,
     },
     address: String,
-    cart: [{
-      itemId: String,
-      itemQuantity: Number
-    }],
-    company: [
+    company:
       {
         type: Schema.Types.ObjectId,
         ref: 'company',
       },
-    ],
     following: [
       {
         type: Schema.Types.ObjectId,

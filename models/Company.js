@@ -5,10 +5,6 @@ const Review = require("./Review");
 // Schema to create company model
 const companySchema = new Schema(
   {
-    address: {
-      type: String,
-      required: true,
-    },
     lookingForWork: Boolean,
     description: {
       type: String,
