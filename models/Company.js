@@ -1,33 +1,22 @@
 const { Schema, model } = require('mongoose');
-const Status = require('./Status')
+const Message = require('./Message')
 
 // Schema to create company model
 const companySchema = new Schema(
   {
-    name: {
-      type: String,
-      required:true,
-      maxLength:25
-    },
-    phoneNumber: {
-      type:Number,
-      required:true, 
-      match: [/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/, 'Please fill a valid email address']
-    },
-    email: {
-      type:String, 
-      required:true, 
-      unique:true, 
-      match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
-  },
     address: {
       type:String, 
       required:true
     },
-    termsOfServiceAgreement: Boolean,
+    lookingForWork: Boolean,
+    description: {
+      type: String,
+      required: true
+    },
     tags: [String],
+    // TODO refractor `ratings` into a new component called `reviews` ... use `Message` as a reference. Reviews should contain `text` a `rating` (out of 5 stars), and a reference to the userId that is submitting the review.
     ratings: [Number],
-    status: Status,
+    messages: [Message],
     followers: Number,
     menu: [{
       type: Schema.Types.ObjectId,

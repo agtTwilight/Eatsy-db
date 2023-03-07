@@ -1,6 +1,8 @@
 const User = require('../models/User');
 
 // TODO add session checkers on applicable routes
+// TODO add password encryption & JWT
+// TODO add follow & unfollow functions
 
 module.exports = {
   // get all users
