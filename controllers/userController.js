@@ -8,6 +8,12 @@ module.exports = {
   // get all users
   getUsers(req, res) {
     User.find()
+    .populate({
+      path: "company",
+      populate: {
+        path: "menu"
+      }
+    })
       .then((users) => res.json(users))
       .catch((err) => res.status(500).json(err));
   },
