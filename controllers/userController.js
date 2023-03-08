@@ -8,6 +8,12 @@ module.exports = {
   // get all users
   getUsers(req, res) {
     User.find()
+    .populate({
+      path: "company",
+      populate: {
+        path: "menu"
+      }
+    })
       .then((users) => res.json(users))
       .catch((err) => res.status(500).json(err));
   },
@@ -62,26 +68,5 @@ module.exports = {
     )
       .then((user) => !user ? res.status(404).json({ msg: "No user found with that ID." }) : res.json(user))
       .catch((err) => res.status(500).json(err))
-  },
-
-  // TODO carts will be added and deleted to in the front end. Then, when the cart is finalized, we will push the cart to the backend...this function will probably get changed to be pushing the cart directly to Stripe!
-  // create new cart
-  createCart(req, res) {
-    User.findOneAndUpdate(
-      { username: req.params.username },
-      { cart: req.body },
-      { new: true }
-    )
-      .then((user) => res.json(user))
-  },
-
-  // delete cart
-  deleteCart(req, res) {
-    User.findOneAndUpdate(
-      { username: req.params.username },
-      { cart: req.body },
-      { new: true }
-    )
-      .then((user) => res.json(user))
   },
 };
