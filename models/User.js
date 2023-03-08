@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-// TODO: include `orders` which will be an array of item id's
+// TODO: add `hero` and `profile` img fields
 
 // Schema to create User model
 const userSchema = new Schema(

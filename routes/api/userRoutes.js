@@ -23,9 +23,6 @@ router.route('/:username').get(getSingleUser).put(updateUser).delete(deleteUser)
 // router.route('/login/:username').post(logUserIn).delete(logUserOut)
 
 // /api/users/:username/following
-// router.route('/:username/following').post(followCompany).delete(unfollowCompany)
-
-// /api/users/:username/cart
-router.route('/:username/cart').post(createCart).delete(deleteCart);
+router.route('/:username/following').post(followCompany).delete(unfollowCompany)
 
 module.exports = router;
