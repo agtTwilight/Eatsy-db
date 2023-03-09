@@ -1,4 +1,4 @@
-const { Schema, Types } = require('mongoose');
+const { Schema } = require('mongoose');
 
 const messageSchema = new Schema(
   {
@@ -8,7 +8,11 @@ const messageSchema = new Schema(
       maxLength: 250
     },
     // usernames since they are unique
-    from: [String]
+    from: {
+      type: String,
+      required: true,
+      maxLength: 250
+    }
   },
   {
     toJSON: {

@@ -1,20 +1,31 @@
-const { Schema, model } = require('mongoose');
-// TODO add tags, allergens Change img to a reference to the actual images id
+const { Schema, model, Types } = require('mongoose');
+
 const itemSchema = new Schema(
   {
     name: {
       type: String,
-      required:true,
+      required: true,
       maxLength: 25,
     },
     description: {
       type: String,
       required: true,
-      maxLength:250,
+      maxLength: 250,
     },
     img: {
-      type:String
-    }
+      type: Schema.Types.ObjectId,
+      ref: 'image'
+    },
+    tags: [{
+      type: String,
+      required: true,
+      maxLength: 25,
+    }],
+    allergens: [{
+      type: String,
+      required: true,
+      maxLength: 25,
+    }]
   },
   {
     toJSON: {

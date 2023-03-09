@@ -1,4 +1,5 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, Types } = require('mongoose');
+const Message = require("./Message");
 
 // TODO: add `hero` and `profile` img fields
 
@@ -23,16 +24,17 @@ const userSchema = new Schema(
     },
     address: String,
     company:
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'company',
-      },
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'company',
+    },
     following: [
       {
         type: Schema.Types.ObjectId,
         ref: 'company',
       },
-    ]
+    ],
+    messages: [Message],
   },
   {
     toJSON: {

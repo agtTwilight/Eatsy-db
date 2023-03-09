@@ -9,8 +9,9 @@ const {
   logUserOut,
   followCompany,
   unfollowCompany,
-  createCart,
-  deleteCart
+  sendMessage,
+  deleteMessage,
+
 } = require('../../controllers/userController');
 
 // /api/users
@@ -21,6 +22,9 @@ router.route('/:username').get(getSingleUser).put(updateUser).delete(deleteUser)
 
 // /api/users/login/:username
 // router.route('/login/:username').post(logUserIn).delete(logUserOut)
+
+// /api/users/message
+router.route("/message").post(sendMessage).delete(deleteMessage)
 
 // /api/users/:username/following
 router.route('/:username/following').post(followCompany).delete(unfollowCompany)
