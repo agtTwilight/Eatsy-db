@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-
+// TODO add tags, allergens Change img to a reference to the actual images id
 const itemSchema = new Schema(
   {
     name: {
