@@ -54,26 +54,6 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
 
-  // TODO make the following functions send with JWT active username
-  // send message to a company
-  sendMessage(req, res) {
-    Company.findOneAndUpdate(
-      { _id: req.body.companyId },
-      { $addToSet: { messages: req.body } },
-      { new: true }
-    )
-      .then((company) => res.json({ msg: `Your message has been successfully sent to ${company.name}.` }))
-      .catch((err) => res.status(500).json(err));
-  },
-
-  // delete message
-  deleteMessage(req, res) {
-    Company.findOneAndUpdate(
-      { _id: req.body.companyId },
-      { $pull: { messages: { from: req.body.username } } }
-    ).then((company) => res.json({ msg: `Your message to ${company.name} has been deleted.` }))
-      .catch((err) => res.status(500).json(err))
-  },
 
   //create review
   createReview(req, res) {

@@ -1,5 +1,4 @@
 const { Schema, model } = require("mongoose");
-const Message = require("./Message");
 const Review = require("./Review");
 
 // Schema to create company model
@@ -12,7 +11,6 @@ const companySchema = new Schema(
     },
     tags: [String],
     reviews: [Review],
-    messages: [Message],
     followers: Number,
     menu: [
       {
@@ -43,7 +41,7 @@ companySchema
     this.set({ avgRating });
   });
 
-// Initialize our Thought model
+// Initialize our Company model
 const Company = model("company", companySchema);
 
 module.exports = Company;

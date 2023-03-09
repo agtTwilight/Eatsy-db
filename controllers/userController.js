@@ -8,12 +8,12 @@ module.exports = {
   // get all users
   getUsers(req, res) {
     User.find()
-    .populate({
-      path: "company",
-      populate: {
-        path: "menu"
-      }
-    })
+      .populate({
+        path: "company",
+        populate: {
+          path: "menu"
+        }
+      })
       .then((users) => res.json(users))
       .catch((err) => res.status(500).json(err));
   },
@@ -67,6 +67,27 @@ module.exports = {
       { runValidators: true, new: true },
     )
       .then((user) => !user ? res.status(404).json({ msg: "No user found with that ID." }) : res.json(user))
+      .catch((err) => res.status(500).json(err))
+  },
+
+  // TODO make the following functions send with JWT active username
+  // send message to a user
+  sendMessage(req, res) {
+    User.findOneAndUpdate(
+      { username: req.body.username },
+      { $addToSet: { messages: req.body } },
+      { new: true }
+    )
+      .then((user) => res.json({ msg: `Your message has been successfully sent to ${user.username}.` }))
+      .catch((err) => res.status(500).json(err));
+  },
+
+  // delete message
+  deleteMessage(req, res) {
+    User.findOneAndUpdate(
+      { username: req.body.username },
+      { $pull: { messages: { from: req.body.username } } }
+    ).then((user) => res.json({ msg: `Your message to ${user.username} has been deleted.` }))
       .catch((err) => res.status(500).json(err))
   },
 };
