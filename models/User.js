@@ -1,5 +1,6 @@
 const { Schema, model, Types } = require('mongoose');
 const Message = require("./Message");
+const bcrypt = require('bcrypt');
 
 // TODO: add `hero` and `profile` img fields
 
@@ -43,6 +44,17 @@ const userSchema = new Schema(
     id: false,
   }
 );
+
+userSchema.pre('save', async function (next) {
+  try {
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(this.password, salt)
+    this.password = hashedPassword
+    next()
+  } catch (error) {
+    next(error)
+  }
+})
 
 // Initialize our User model
 const User = model('user', userSchema);

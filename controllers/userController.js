@@ -18,15 +18,42 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
 
+  //login user
+  logUserIn(req, res) {
+    User.findOne({
+      where: {
+        username: req.body.username
+      }
+    }).then(foundUser => {
+      if (!foundUser) {
+        return res.status(401).json({ msg: "Invalid credentials were input." })
+      } else if (!bcrypt.compareSync(req.body.password, foundUser.password)) {
+        return res.status(401).json({ msg: "Invalid credentials were input." })
+      } else {
+        const token = jwt.sign({
+          id: foundUser.id,
+          username: foundUser.username
+        }, "eatsyeatsy", {
+          expiresIn: "2h"
+        })
+        console.log(token)
+        return res.json({
+          token: token,
+          user: foundUser
+        })
+      }
+    })
+  },
+
   // get single user
   getSingleUser(req, res) {
     User.findOne({ username: req.params.username })
-    .populate({
-      path: "company",
-      populate: {
-        path: "menu"
-      }
-    })
+      .populate({
+        path: "company",
+        populate: {
+          path: "menu"
+        }
+      })
       .then((user) =>
         !user
           ? res.status(404).json({ message: 'No user with that username' })

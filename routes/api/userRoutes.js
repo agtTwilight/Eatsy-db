@@ -21,7 +21,7 @@ router.route('/').get(getUsers).post(createUser);
 router.route('/:username').get(getSingleUser).put(updateUser).delete(deleteUser);
 
 // /api/users/login/:username
-// router.route('/login/:username').post(logUserIn).delete(logUserOut)
+router.route('/login/:username').post(logUserIn).delete(logUserOut)
 
 // /api/users/message
 router.route("/message").post(sendMessage).delete(deleteMessage)
