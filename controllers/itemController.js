@@ -5,13 +5,13 @@ module.exports = {
         createItem(req, res) {
                 Item.create(req.body)
                         .then((item) => {
+                                res.json(item)
                                 // TODO make it so user data w/ company id is saved to local storage 
                                 return Company.findOneAndUpdate(
                                         { _id: req.body.companyId },
                                         { $addToSet: { menu: item._id.toString() } }
                                 )
                         })
-                .then((user) => res.json(user))
                 .catch((err) => res.status(500).json(err));
         },
 

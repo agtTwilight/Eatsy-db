@@ -12,18 +12,15 @@ const itemSchema = new Schema(
       required: true,
       maxLength: 250,
     },
-    img: {
-      type: Schema.Types.ObjectId,
-      ref: 'image'
-    },
+    src: String,
     tags: [{
       type: String,
-      required: true,
+      // required: true,
       maxLength: 25,
     }],
     allergens: [{
       type: String,
-      required: true,
+      // required: true,
       maxLength: 25,
     }]
   },
