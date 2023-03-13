@@ -27,21 +27,28 @@ module.exports = {
     }).then(foundUser => {
       if (!foundUser) {
         return res.status(401).json({ msg: "Invalid credentials were input." })
-      } else if (!bcrypt.compareSync(req.body.password, foundUser.password)) {
+      } 
+      
+      if (!bcrypt.compareSync(req.body.password, foundUser.password)) {
         return res.status(401).json({ msg: "Invalid credentials were input." })
-      } else {
-        const token = jwt.sign({
-          id: foundUser.id,
-          username: foundUser.username
-        }, "eatsyeatsy", {
-          expiresIn: "2h"
-        })
-        console.log(token)
-        return res.json({
-          token: token,
-          user: foundUser
-        })
       }
+      
+      const token = jwt.sign({
+        id: foundUser._id,
+        username: foundUser.username
+      }, "eatsyeatsy", {
+        expiresIn: "6h"
+      })
+      console.log(token)
+      return res.json({
+        msg: "successfully logged in",
+        token: token,
+        user: foundUser
+      })
+    })
+    .catch((err) => {
+      console.log(err)
+      res.json({msg: "an error has occured"})
     })
   },
 
