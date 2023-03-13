@@ -1,4 +1,6 @@
 const User = require('../models/User');
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 // TODO add session checkers on applicable routes
 // TODO add password encryption & JWT
@@ -20,11 +22,7 @@ module.exports = {
 
   //login user
   logUserIn(req, res) {
-    User.findOne({
-      where: {
-        username: req.body.username
-      }
-    }).then(foundUser => {
+    User.findOne({username: req.body.username}).then(foundUser => {
       if (!foundUser) {
         return res.status(401).json({ msg: "Invalid credentials were input." })
       } 
@@ -52,6 +50,29 @@ module.exports = {
     })
   },
 
+  // get user by token
+  isValidToken (req, res) {
+    const token = req.headers?.authorization?.split(" ")[1];
+    if (!token) {
+      return res
+        .status(403)
+        .json({ isValid: false, msg: "ERR, you must be logged to perform this action." });
+    }
+    try {
+      const tokenData = jwt.verify(token,"eatsyeatsy");
+      res.json({
+        msg:"success",
+        isValid: true,
+        user: tokenData,
+      });
+    } catch (err) {
+      res.status(403).json({
+        isValid: false,
+        msg: "invalid token",
+      });
+    }
+  },
+
   // get single user
   getSingleUser(req, res) {
     User.findOne({ username: req.params.username })
@@ -71,8 +92,24 @@ module.exports = {
   // create a new user
   createUser(req, res) {
     User.create(req.body)
-      .then((dbUserData) => res.json(dbUserData))
-      .catch((err) => res.status(500).json(err));
+      .then((dbUserData) => {
+        const token = jwt.sign({
+          id: foundUser._id,
+          username: foundUser.username
+        }, "eatsyeatsy", {
+          expiresIn: "6h"
+        })
+        console.log(token)
+        return res.json({
+          msg: "successfully created",
+          token: token,
+          user: dbUserData
+        })
+      })
+      .catch((err) => {
+        console.log(err)
+        res.json({msg: "an error has occured"})
+      })
   },
 
   // update user
