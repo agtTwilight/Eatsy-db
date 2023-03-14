@@ -1,4 +1,6 @@
-const User = require('../models/User');
+const {User, Company} = require('../models/');
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 // TODO add session checkers on applicable routes
 // TODO add password encryption & JWT
@@ -7,7 +9,7 @@ const User = require('../models/User');
 module.exports = {
   // get all users
   getUsers(req, res) {
-    User.find()
+    User.find({company: {$exists:true}})
       .populate({
         path: "company",
         populate: {
@@ -20,29 +22,56 @@ module.exports = {
 
   //login user
   logUserIn(req, res) {
-    User.findOne({
-      where: {
-        username: req.body.username
-      }
-    }).then(foundUser => {
+    User.findOne({username: req.body.username}).then(foundUser => {
       if (!foundUser) {
         return res.status(401).json({ msg: "Invalid credentials were input." })
-      } else if (!bcrypt.compareSync(req.body.password, foundUser.password)) {
+      } 
+      
+      if (!bcrypt.compareSync(req.body.password, foundUser.password)) {
         return res.status(401).json({ msg: "Invalid credentials were input." })
-      } else {
-        const token = jwt.sign({
-          id: foundUser.id,
-          username: foundUser.username
-        }, "eatsyeatsy", {
-          expiresIn: "2h"
-        })
-        console.log(token)
-        return res.json({
-          token: token,
-          user: foundUser
-        })
       }
+      
+      const token = jwt.sign({
+        id: foundUser._id,
+        username: foundUser.username
+      }, "eatsyeatsy", {
+        expiresIn: "6h"
+      })
+      console.log(token)
+      return res.json({
+        msg: "successfully logged in",
+        token: token,
+        user: foundUser
+      })
     })
+    .catch((err) => {
+      console.log(err)
+      res.json({msg: "an error has occured"})
+    })
+  },
+
+  // get user by token
+  isValidToken (req, res) {
+    console.log(req.headers.authorization)
+    const token = req.headers?.authorization?.split(" ")[1];
+    if (!token) {
+      return res
+        .status(403)
+        .json({ isValid: false, msg: "ERR, you must be logged to perform this action." });
+    }
+    try {
+      const tokenData = jwt.verify(token,"eatsyeatsy");
+      res.json({
+        msg:"success",
+        isValid: true,
+        user: tokenData,
+      });
+    } catch (err) {
+      res.status(403).json({
+        isValid: false,
+        msg: "invalid token",
+      });
+    }
   },
 
   // get single user
@@ -64,8 +93,35 @@ module.exports = {
   // create a new user
   createUser(req, res) {
     User.create(req.body)
-      .then((dbUserData) => res.json(dbUserData))
-      .catch((err) => res.status(500).json(err));
+      .then((dbUserData) => {
+        Company.create(req.body)
+        .then(dbCompanyData => {
+          return User.findOneAndUpdate(
+            { username: req.body.username },
+            { $addToSet: { company: dbCompanyData._id.toString() } },
+            { runValidators: true, new: true }
+          );
+        });
+        const token = jwt.sign({
+          id: dbUserData._id,
+          username: dbUserData.username
+        }, "eatsyeatsy", {
+          expiresIn: "6h"
+        })
+        console.log(token)
+        return res.json({
+          msg: "successfully created",
+          token: token,
+          user: dbUserData
+        })
+      })
+      .catch((err) => {
+        console.log(err)
+        res.json({
+          msg: "an error has occured",
+          err: true
+        })
+      })
   },
 
   // update user
