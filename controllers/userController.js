@@ -1,4 +1,4 @@
-const User = require('../models/User');
+const {User, Company} = require('../models/');
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
@@ -9,7 +9,7 @@ const bcrypt = require("bcrypt");
 module.exports = {
   // get all users
   getUsers(req, res) {
-    User.find()
+    User.find({company: {$exists:true}})
       .populate({
         path: "company",
         populate: {
@@ -52,6 +52,7 @@ module.exports = {
 
   // get user by token
   isValidToken (req, res) {
+    console.log(req.headers.authorization)
     const token = req.headers?.authorization?.split(" ")[1];
     if (!token) {
       return res
@@ -93,9 +94,17 @@ module.exports = {
   createUser(req, res) {
     User.create(req.body)
       .then((dbUserData) => {
+        Company.create(req.body)
+        .then(dbCompanyData => {
+          return User.findOneAndUpdate(
+            { username: req.body.username },
+            { $addToSet: { company: dbCompanyData._id.toString() } },
+            { runValidators: true, new: true }
+          );
+        });
         const token = jwt.sign({
-          id: foundUser._id,
-          username: foundUser.username
+          id: dbUserData._id,
+          username: dbUserData.username
         }, "eatsyeatsy", {
           expiresIn: "6h"
         })
@@ -108,7 +117,10 @@ module.exports = {
       })
       .catch((err) => {
         console.log(err)
-        res.json({msg: "an error has occured"})
+        res.json({
+          msg: "an error has occured",
+          err: true
+        })
       })
   },
 

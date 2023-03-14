@@ -7,7 +7,6 @@ const companySchema = new Schema(
     lookingForWork: Boolean,
     description: {
       type: String,
-      required: true,
     },
     tags: [String],
     reviews: [Review],
