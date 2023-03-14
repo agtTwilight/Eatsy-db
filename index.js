@@ -2,6 +2,7 @@ const express = require('express');
 const db = require('./config/connection');
 const routes = require('./routes');
 const cors = require('cors')
+require('dotenv').config();
 
 // TODO this file when we are ready to ship db to heroku
 const PORT = process.env.PORT || 3001;
