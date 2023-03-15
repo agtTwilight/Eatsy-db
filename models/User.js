@@ -24,6 +24,7 @@ const userSchema = new Schema(
       required: true,
     },
     address: String,
+    src: String,
     company:
     {
       type: Schema.Types.ObjectId,
