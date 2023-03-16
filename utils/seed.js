@@ -33,18 +33,18 @@ connection.once("open", async () => {
         }
 
         // Add items to the db
-        for (i=0; i < items.length; i ++){
-                await Item.create(items[i])
-                .then((dbItemData) => {
-                        User.findOne({username: items[i].username})
-                        .then((dbUserData) => {
-                                return Company.findOneAndUpdate(
-                                        {_id: dbUserData.company},
-                                        {$addToSet: {menu: dbItemData._id.toString()}}
-                                        )
-                        })
-                })
-        }
+        // for (i=0; i < items.length; i ++){
+        //         await Item.create(items[i])
+        //         .then((dbItemData) => {
+        //                 User.findOne({username: items[i].username})
+        //                 .then((dbUserData) => {
+        //                         return Company.findOneAndUpdate(
+        //                                 {_id: dbUserData.company},
+        //                                 {$addToSet: {menu: dbItemData._id.toString()}}
+        //                                 )
+        //                 })
+        //         })
+        // }
 
         console.log("database seeded!")
 })
