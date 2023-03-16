@@ -2,6 +2,10 @@
 # Eatsy-db
 ![badge](https://img.shields.io/badge/License-MIT-yellow.svg)
 
+Link to deployed front-end: https://eatsyfoods.netlify.app
+
+Link to front-end repo: https://github.com/binh-ngo/eatsy-front-end
+
 ## Description
 **What was your motivation?** <br>
 We wanted to design an application that provided foodies and homecooks to connect with one another and share new ideas. This database was designed by Lukas MacMillen and Jason Nguyen to provide full CRUD functionality to our react.js front end. <br><br>
