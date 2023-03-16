@@ -13,16 +13,16 @@ const itemSchema = new Schema(
       maxLength: 250,
     },
     src: String,
-    tags: [{
+    tags: {
       type: String,
       // required: true,
       maxLength: 25,
-    }],
-    allergens: [{
+    },
+    allergens: {
       type: String,
       // required: true,
       maxLength: 25,
-    }]
+    }
   },
   {
     toJSON: {
