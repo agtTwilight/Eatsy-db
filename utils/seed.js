@@ -1,6 +1,7 @@
 const connection = require("../config/connection");
 const {User, Company, Item} = require("../models");
-const {demoU1, demoU2, demoC1, demoC2, demoI1, demoI2, demoI3} = require("./seedData")
+const {demoU1, demoU2, demoU3,demoU4,demoU5,demoU6,demoU7,demoU8,demoU9,demoU10,demoU11,demoU12,
+        demoC1, demoC2, demoC3,demoC4,demoC5,demoC6,demoC7,demoC8,demoC9,demoC10,demoC11,demoC12} = require("./seedData")
 
 connection.once("open", async () => {
         console.log("connected...");
@@ -12,9 +13,8 @@ connection.once("open", async () => {
         console.log("database reset...")
 
         // Create demo seed collections
-        const users = [demoU1, demoU2]
-        const companies = [demoC1, demoC2]
-        const items = [demoI1, demoI2, demoI3]
+        const users = [demoU1, demoU2, demoU3,demoU4,demoU5,demoU6,demoU7,demoU8,demoU9,demoU10,demoU11,demoU12]
+        const companies = [demoC1, demoC2, demoC3,demoC4,demoC5,demoC6,demoC7,demoC8,demoC9,demoC10,demoC11,demoC12]
 
         // Add the users to the db
         for (i=0; i < users.length; i++){
@@ -33,18 +33,18 @@ connection.once("open", async () => {
         }
 
         // Add items to the db
-        for (i=0; i < items.length; i ++){
-                await Item.create(items[i])
-                .then((dbItemData) => {
-                        User.findOne({username: items[i].username})
-                        .then((dbUserData) => {
-                                return Company.findOneAndUpdate(
-                                        {_id: dbUserData.company},
-                                        {$addToSet: {menu: dbItemData._id.toString()}}
-                                        )
-                        })
-                })
-        }
+        // for (i=0; i < items.length; i ++){
+        //         await Item.create(items[i])
+        //         .then((dbItemData) => {
+        //                 User.findOne({username: items[i].username})
+        //                 .then((dbUserData) => {
+        //                         return Company.findOneAndUpdate(
+        //                                 {_id: dbUserData.company},
+        //                                 {$addToSet: {menu: dbItemData._id.toString()}}
+        //                                 )
+        //                 })
+        //         })
+        // }
 
         console.log("database seeded!")
 })

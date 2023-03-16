@@ -9,7 +9,7 @@ const demoU1 = {
 const demoU2 = {
         username: "Snickerdoodle",
         email: "cat@cat.com",
-        password: "passwordMeow",
+        password: "password",
         address: "1234 N street",
 }
 
@@ -86,14 +86,14 @@ const demoU12 = {
 const demoC1 = {
         lookingForWork: true,
         description: "We make the finest biscuits.",
-        tags: ["Baking", "Gluten Free"],
+        tags: ["Breakfast", "Sweet"],
         username: "Snickerdoodle"
 }
 
 const demoC2 = {
         lookingForWork: true,
         description: "Best Breakfast In Town!",
-        tags: ["Breakfast", "Light", "Simple"],
+        tags: ["Mexican", "American"],
         username: "Lukas"
 }
 
@@ -167,25 +167,5 @@ const demoC12 = {
         username: "Andy James"
 }
 
-// item seeds
-const demoI1 = {
-        username: "Snickerdoodle",
-        name: "Biscuit",
-        description: "Fluffy handmade biscuits. Kneaded each night with tender paws.",
-}
-
-const demoI2 = {
-        username: "Lukas",
-        name: "Omlette",
-        description: "3 egg omlette with mushrooms, green onions, furikake, fat free mozzeralla, and kewpie."
-}
-
-const demoI3 = {
-        username: "Lukas",
-        name: "Avocado Toast",
-        description: "Avocado toast topped with nutritional yeast, salt, pepper, cayenne, and one over medium egg."
-}
-
 module.exports = {demoU1, demoU2, demoU3,demoU4,demoU5,demoU6,demoU7,demoU8,demoU9,demoU10,demoU11,demoU12,
-                  demoC1, demoC2, demoC3,demoC4,demoC5,demoC6,demoC7,demoC8,demoC9,demoC10,demoC11,demoC12,
-                  demoI1, demoI2, demoI3}
+                  demoC1, demoC2, demoC3,demoC4,demoC5,demoC6,demoC7,demoC8,demoC9,demoC10,demoC11,demoC12}
